@@ -1,4 +1,5 @@
 export interface App {
+  version: string;
   device: {
     apple: {
       phone: boolean;
@@ -38,34 +39,24 @@ export interface App {
   get: (key: string, table?: string) => Promise<any>;
   set: (
     key: string | Array<IData>,
-    value?: IData,
+    value?: any,
     table?: string
   ) => Promise<any>;
   remove: (key: string | Array<string>, table?: string) => Promise<any>;
-  list: (query?: Query, pager?: Pager, origin?: boolean) => Promise<any>;
-  option: (key: string, value?: IData) => Promise<any>;
+  list: (query?: Query, pager?: Pager, table?: string) => Promise<any>;
+  option: (key: string, value?: any) => Promise<any>;
+  keyboard(event: KeyboardEvent): string | undefined;
 
   warn: (...args: Array<string>) => void;
   info: (...args: Array<string>) => void;
   error: (...args: Array<string>) => void;
   success: (...args: Array<string>) => void;
 
-  download: (id: string) => Promise<Plugin>;
-  listApp: (match?: Match, pager?: Pager) => Promise<any>;
-  getApp: (id: string, runtime?: boolean) => Promise<Plugin>;
-  setApp: (plugin: Plugin) => Promise<Plugin>;
-  enable: (id: string) => Promise<boolean>;
-  disable: (id: string) => Promise<boolean>;
-  install(data: string | Plugin): Promise<boolean>;
-  uninstall: (id: string) => Promise<boolean>;
-  used: (id: string) => boolean;
-  run: (id: string) => Promise<boolean>;
-  destroy: (id: string) => Promise<boolean>;
   apply: (runAt: string) => Promise<boolean>;
 
-  i18n: (...args: Array<string>) => string;
+  i18n: (...args: Array<any>) => string;
 
-  data: (key: string, value?: any, notMerge?: boolean) => any;
+  data(key: string, value?: any, notMerge?: boolean): any;
   path: (id?: string) => string;
 
   send: (
@@ -87,7 +78,7 @@ export interface App {
     once?: boolean,
     priority?: number
   ) => () => void;
-  fire: (name: string, ...args: any) => void;
+  fire(id: string, ...args: any): void;
   addFilter: (
     name: string | string[],
     callback: string | any,
@@ -104,16 +95,19 @@ export interface Plugin {
   type?: string;
   title?: string;
   runAt?: string;
+  core?: boolean;
+  enabled?: boolean;
   version?: string;
+  preset?: boolean;
   priority?: number;
   description?: string;
   author?: string;
   debug?: boolean;
-  access?: boolean;
+  isPro?: boolean;
   homepage?: string;
   dependencies?: string[];
   main?: string;
-  option?: {
+  settings?: {
     [index: string]: any;
   };
   i18n?: {

@@ -1,6 +1,6 @@
 import useApp from './useApp';
 import { useState, useEffect } from 'react';
-import { isUndefined } from '../is';
+import { isUndefined } from '../utils/is';
 
 interface IProps {
   id: string;
@@ -25,6 +25,20 @@ export default function useOption(props: IProps) {
       return;
     }
     if (isUndefined(value)) {
+      return;
+    }
+    // 等于默认值直接删除，减小存储大小
+    if (value === defaultValue) {
+      app
+        .remove(id)
+        .then(() => {
+          setValue(value);
+          callback && callback();
+        })
+        .catch((error: Error) => {
+          console.error(error);
+          callback && callback(error.message);
+        });
       return;
     }
     app
