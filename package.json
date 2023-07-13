@@ -1,0 +1,42 @@
+{
+  "name": "circle-ihk",
+  "version": "1.0.0",
+  "license": "MIT",
+  "description": "Circle Reader Component Library",
+  "sideEffects": false,
+  "module": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "author": "Ranhe <wenguang.fe@gmail.com> (https://circlereader.com/)",
+  "scripts": {
+    "build": "npx tsc",
+    "release": "npm run build && npm publish",
+    "lint": "eslint src/**",
+    "prepare": "husky install"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "dependencies": {
+    "react": "^18.2.0"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^17.6.6",
+    "@commitlint/config-conventional": "^17.6.6",
+    "@types/classnames": "^2.3.1",
+    "@types/prop-types": "^15.7.5",
+    "@types/react": "^18.2.14",
+    "@types/react-dom": "^18.2.6",
+    "@typescript-eslint/eslint-plugin": "^5.60.1",
+    "@typescript-eslint/parser": "^5.60.1",
+    "eslint": "^8.43.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.3",
+    "lodash": "^4.17.21",
+    "prettier": "^2.8.8",
+    "typescript": "^5.1.6"
+  }
+}
