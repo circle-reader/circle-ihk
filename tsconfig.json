@@ -2,6 +2,7 @@
   "compilerOptions": {
     "strictNullChecks": true,
     "moduleResolution": "node",
+    "lib": ["ESNext", "DOM"],
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "jsx": "react-jsx",
@@ -10,7 +11,7 @@
     "noImplicitAny": true,
     "declaration": true,
     "declarationDir": "dist",
-    "target": "ES6",
+    "target": "ESNext",
     "skipLibCheck": true,
     "stripInternal": true,
     "outDir": "./dist",

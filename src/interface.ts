@@ -1,93 +1,12 @@
-export interface App {
-  version: string;
-  device: {
-    apple: {
-      phone: boolean;
-      ipod: boolean;
-      tablet: boolean;
-      universal: boolean;
-      device: boolean;
-    };
-    amazon: {
-      phone: boolean;
-      tablet: boolean;
-      device: boolean;
-    };
-    android: {
-      phone: boolean;
-      tablet: boolean;
-      device: boolean;
-    };
-    windows: {
-      phone: boolean;
-      tablet: boolean;
-      device: boolean;
-    };
-    other: {
-      blackberry: boolean;
-      blackberry10: boolean;
-      opera: boolean;
-      firefox: boolean;
-      chrome: boolean;
-      device: boolean;
-    };
-    phone: boolean;
-    tablet: boolean;
-    any: boolean;
-  };
-
-  get: (key: string, table?: string) => Promise<any>;
-  set: (
-    key: string | Array<IData>,
-    value?: any,
-    table?: string
-  ) => Promise<any>;
-  remove: (key: string | Array<string>, table?: string) => Promise<any>;
-  list: (query?: Query, pager?: Pager, table?: string) => Promise<any>;
-  option: (key: string, value?: any) => Promise<any>;
-  keyboard(event: KeyboardEvent): string | undefined;
-
-  warn: (...args: Array<string>) => void;
-  info: (...args: Array<string>) => void;
-  error: (...args: Array<string>) => void;
-  success: (...args: Array<string>) => void;
-
-  apply: (runAt: string) => Promise<boolean>;
-
-  i18n: (...args: Array<any>) => string;
-
-  data(key: string, value?: any, notMerge?: boolean): any;
-  path: (id?: string) => string;
-
-  send: (
-    type: string,
-    option?: any,
-    callback?: (error?: string, data?: any) => void
-  ) => void;
-  fetch: (
-    url: string,
-    options?: {
-      format?: 'json' | 'text';
-      [index: string]: any;
-    }
-  ) => Promise<any>;
-
-  on: (
-    name: string,
-    callback: string | any,
-    once?: boolean,
-    priority?: number
-  ) => () => void;
-  fire(id: string, ...args: any): void;
-  addFilter: (
-    name: string | string[],
-    callback: string | any,
-    once?: boolean,
-    priority?: number
-  ) => () => void;
-  applyFilter: (name: string, ...args: any[]) => any;
-  hasHook: (name: string) => boolean;
-  removeHook: (name: string | string[], callback?: () => void) => void;
+export interface User {
+  auth?: string;
+  token?: string;
+  member: boolean;
+  uid?: string;
+  name?: string;
+  expire?: string;
+  avatar?: string;
+  mail?: string;
 }
 
 export interface Plugin {
@@ -139,3 +58,154 @@ export type Pager = {
   start: number;
   limit: number;
 };
+
+export interface App {
+  version: string;
+  device: {
+    apple: {
+      phone: boolean;
+      ipod: boolean;
+      tablet: boolean;
+      universal: boolean;
+      device: boolean;
+    };
+    amazon: {
+      phone: boolean;
+      tablet: boolean;
+      device: boolean;
+    };
+    android: {
+      phone: boolean;
+      tablet: boolean;
+      device: boolean;
+    };
+    windows: {
+      phone: boolean;
+      tablet: boolean;
+      device: boolean;
+    };
+    other: {
+      blackberry: boolean;
+      blackberry10: boolean;
+      opera: boolean;
+      firefox: boolean;
+      chrome: boolean;
+      device: boolean;
+    };
+    phone: boolean;
+    tablet: boolean;
+    any: boolean;
+  };
+  user: User;
+  tables: Array<{
+    table: 'apps' | 'option' | 'node';
+    indexs: string | Array<string>;
+  }>;
+
+  path: (id?: string) => string;
+  field: (
+    id?:
+      | string
+      | Array<string>
+      | {
+          [index: string]: any;
+        },
+    defaultValue?: any
+  ) => any;
+
+  data(id: string, value?: any): any;
+
+  get: (id: string, table?: string) => Promise<any>;
+  set: (id: string | Array<IData>, value?: any, table?: string) => Promise<any>;
+  remove: (id: string | Array<string>, table?: string) => Promise<any>;
+  list: (query?: Query, pager?: Pager) => Promise<any>;
+  option: (id: string, value?: any) => Promise<any>;
+  log: (...args: any) => string;
+
+  action: (id?: 'ready' | 'enable' | 'disable' | 'force') => void;
+  record: (value: string, type?: string) => Promise<any>;
+  export: (value?: string | Array<string>) => Promise<{
+    version: string;
+    data: any;
+  }>;
+  import: (
+    value:
+      | string
+      | {
+          version?: string;
+          data: any;
+        }
+  ) => Promise<any>;
+  reset: (value?: string) => Promise<any>;
+  contextMenus: (
+    action: 'create' | 'update' | 'remove' | 'destory' | 'rebuild',
+    value:
+      | string
+      | {
+          id: string;
+          title: string;
+          enabled?: boolean;
+        }
+  ) => Promise<any>;
+  tabs: (
+    action: 'create' | 'update' | 'remove' | 'captureVisibleTab' | 'query',
+    value?: any
+  ) => Promise<any>;
+  windows: (
+    action: 'current' | 'create' | 'get' | 'update' | 'remove',
+    value:
+      | number
+      | {
+          id?: number;
+          url?: string;
+          state?:
+            | 'normal'
+            | 'minimized'
+            | 'maximized'
+            | 'fullscreen'
+            | 'locked-fullscreen';
+          args?: any;
+        }
+  ) => Promise<any>;
+
+  warning: (...args: Array<string>) => void;
+  info: (...args: Array<string>) => void;
+  error: (...args: Array<string>) => void;
+  success: (...args: Array<string>) => void;
+
+  syncUser: () => Promise<User>;
+
+  listApp: (match?: Match, pager?: Pager) => Promise<Array<Plugin>>;
+  enable: (id: string | Plugin) => Promise<boolean>;
+  disable: (id: string | Plugin) => Promise<boolean>;
+  uninstall: (id: string | Plugin) => Promise<boolean>;
+  install: (id: string | Plugin) => Promise<boolean>;
+  apply: (runAt: string) => Promise<boolean>;
+
+  i18n: (...args: Array<string>) => string;
+
+  fetch: (
+    url: string,
+    options?: {
+      format?: 'json' | 'text';
+      [index: string]: any;
+    }
+  ) => Promise<any>;
+
+  on: (
+    id: string,
+    callback: string | any,
+    once?: boolean,
+    priority?: number
+  ) => () => void;
+  fire(id: string, ...args: any): void;
+  addFilter: (
+    id: string | string[],
+    callback: string | any,
+    once?: boolean,
+    priority?: number
+  ) => () => void;
+  applyFilter: (id: string, ...args: any[]) => any;
+  hasHook: (id: string) => boolean;
+  removeHook: (id: string | string[], callback?: () => void) => void;
+}

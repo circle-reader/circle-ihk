@@ -4,11 +4,13 @@ specifiers:
   '@commitlint/cli': ^17.6.6
   '@commitlint/config-conventional': ^17.6.6
   '@types/classnames': ^2.3.1
+  '@types/crypto-js': ^4.1.1
   '@types/prop-types': ^15.7.5
   '@types/react': ^18.2.14
   '@types/react-dom': ^18.2.6
   '@typescript-eslint/eslint-plugin': ^5.60.1
   '@typescript-eslint/parser': ^5.60.1
+  crypto-js: ^4.1.1
   eslint: ^8.43.0
   eslint-config-prettier: ^8.8.0
   eslint-plugin-prettier: ^4.2.1
@@ -20,12 +22,14 @@ specifiers:
   typescript: ^5.1.6
 
 dependencies:
+  crypto-js: 4.1.1
   react: 18.2.0
 
 devDependencies:
   '@commitlint/cli': 17.6.6
   '@commitlint/config-conventional': 17.6.6
   '@types/classnames': 2.3.1
+  '@types/crypto-js': 4.1.1
   '@types/prop-types': 15.7.5
   '@types/react': 18.2.14
   '@types/react-dom': 18.2.7
@@ -358,6 +362,10 @@ packages:
     deprecated: This is a stub types definition. classnames provides its own type definitions, so you do not need this installed.
     dependencies:
       classnames: 2.3.2
+    dev: true
+
+  /@types/crypto-js/4.1.1:
+    resolution: {integrity: sha512-BG7fQKZ689HIoc5h+6D2Dgq1fABRa0RbBWKBd9SP/MVRVXROflpm5fhwyATX5duFmbStzyzyycPB8qUYKDH3NA==}
     dev: true
 
   /@types/json-schema/7.0.12:
@@ -856,6 +864,10 @@ packages:
       shebang-command: 2.0.0
       which: 2.0.2
     dev: true
+
+  /crypto-js/4.1.1:
+    resolution: {integrity: sha512-o2JlM7ydqd3Qk9CA0L4NL6mTzU2sdx96a+oOfPu8Mkl/PK51vSyoi8/rQ8NknZtk44vq15lmhAj9CIAGwgeWKw==}
+    dev: false
 
   /csstype/3.1.2:
     resolution: {integrity: sha512-I7K1Uu0MBPzaFKg4nI5Q7Vs2t+3gWWW648spaF+Rg7pI9ds18Ugn+lvg4SHczUdKlHI5LWBXyqfS8+DufyBsgQ==}

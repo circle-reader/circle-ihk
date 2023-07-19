@@ -33,3 +33,7 @@ export function isObject(value: any) {
 export function isAsyncFunction(value: any) {
   return isType(value, 'AsyncFunction');
 }
+
+export function isChinese(value: string) {
+  return /[\u4e00-\u9fa5]/.test(value);
+}

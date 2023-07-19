@@ -1,6 +1,6 @@
 import useApp from './useApp';
 import { useState, useEffect } from 'react';
-import { isUndefined } from '../utils/is';
+import { isUndefined, isFunction } from '../utils/is';
 
 interface IProps {
   id: string;
@@ -33,11 +33,13 @@ export default function useOption(props: IProps) {
         .remove(id)
         .then(() => {
           setValue(value);
-          callback && callback();
+          // @ts-ignore
+          isFunction(callback) && callback();
         })
         .catch((error: Error) => {
           console.error(error);
-          callback && callback(error.message);
+          // @ts-ignore
+          isFunction(callback) && callback(error.message);
         });
       return;
     }
@@ -45,11 +47,13 @@ export default function useOption(props: IProps) {
       .option(id, value)
       .then(() => {
         setValue(value);
-        callback && callback();
+        // @ts-ignore
+        isFunction(callback) && callback();
       })
       .catch((error: Error) => {
         console.error(error);
-        callback && callback(error.message);
+        // @ts-ignore
+        isFunction(callback) && callback(error.message);
       });
   };
 
