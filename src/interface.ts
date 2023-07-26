@@ -61,6 +61,7 @@ export type Pager = {
 
 export interface App {
   version: string;
+  language: string;
   device: {
     apple: {
       phone: boolean;
@@ -97,6 +98,7 @@ export interface App {
     any: boolean;
   };
   user: User;
+  colorScheme: '' | 'light' | 'dark';
   tables: Array<{
     table: 'apps' | 'option' | 'node';
     indexs: string | Array<string>;
@@ -174,13 +176,15 @@ export interface App {
   success: (...args: Array<string>) => void;
 
   syncUser: () => Promise<User>;
+  syncColorScheme: () => void;
+  cron: (force?: boolean) => Promise<boolean>;
 
   listApp: (match?: Match, pager?: Pager) => Promise<Array<Plugin>>;
   enable: (id: string | Plugin) => Promise<boolean>;
   disable: (id: string | Plugin) => Promise<boolean>;
   uninstall: (id: string | Plugin) => Promise<boolean>;
   install: (id: string | Plugin) => Promise<boolean>;
-  apply: (runAt: string) => Promise<boolean>;
+  apply: (runAt: string, scope?: string) => Promise<boolean>;
 
   i18n: (...args: Array<string>) => string;
 

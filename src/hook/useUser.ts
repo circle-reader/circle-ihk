@@ -157,7 +157,7 @@ export default function useUser() {
           })
       );
     },
-    reset(
+    resetPwd(
       {
         username,
         password,

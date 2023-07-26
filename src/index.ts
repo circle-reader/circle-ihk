@@ -1,7 +1,8 @@
 export { default as AppContext } from './hook';
 export { default as useApp } from './hook/useApp';
-export { default as useNode } from './hook/useNode';
 export { default as useUser } from './hook/useUser';
+export { default as useData } from './hook/useData';
+export { default as useQuery } from './hook/useQuery';
 export { default as useOption } from './hook/useOption';
 
 export { default as each } from './utils/each';

@@ -1,9 +1,11 @@
 {
   "name": "circle-ihk",
-  "version": "1.0.0-3",
+  "version": "1.0.0-5",
   "license": "MIT",
   "description": "Circle Reader Component Library",
-  "sideEffects": false,
+  "sideEffects": [
+    "*.css"
+  ],
   "module": "dist/index.js",
   "typings": "dist/index.d.ts",
   "author": "Ranhe <wenguang.fe@gmail.com> (https://circlereader.com/)",
