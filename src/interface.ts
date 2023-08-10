@@ -1,12 +1,12 @@
 export interface User {
   auth?: string;
   token?: string;
-  member: boolean;
   uid?: string;
   name?: string;
   expire?: string;
   avatar?: string;
   mail?: string;
+  roles: Array<string>;
 }
 
 export interface Plugin {
@@ -21,8 +21,7 @@ export interface Plugin {
   priority?: number;
   description?: string;
   author?: string;
-  debug?: boolean;
-  isPro?: boolean;
+  pro?: boolean;
   homepage?: string;
   dependencies?: string[];
   main?: string;
@@ -120,8 +119,8 @@ export interface App {
   get: (id: string, table?: string) => Promise<any>;
   set: (id: string | Array<IData>, value?: any, table?: string) => Promise<any>;
   remove: (id: string | Array<string>, table?: string) => Promise<any>;
-  list: (query?: Query, pager?: Pager) => Promise<any>;
-  option: (id: string, value?: any) => Promise<any>;
+  list: (query?: Query, pager?: Pager, table?: string) => Promise<any>;
+  option: (id?: string, value?: any) => Promise<any>;
   log: (...args: any) => string;
 
   action: (id?: 'ready' | 'enable' | 'disable' | 'force') => void;
@@ -155,7 +154,7 @@ export interface App {
   ) => Promise<any>;
   windows: (
     action: 'current' | 'create' | 'get' | 'update' | 'remove',
-    value:
+    value?:
       | number
       | {
           id?: number;
@@ -176,22 +175,23 @@ export interface App {
   success: (...args: Array<string>) => void;
 
   syncUser: () => Promise<User>;
-  syncColorScheme: () => void;
   cron: (force?: boolean) => Promise<boolean>;
 
+  getApp(id: string | Plugin): Promise<Plugin>;
   listApp: (match?: Match, pager?: Pager) => Promise<Array<Plugin>>;
   enable: (id: string | Plugin) => Promise<boolean>;
   disable: (id: string | Plugin) => Promise<boolean>;
   uninstall: (id: string | Plugin) => Promise<boolean>;
   install: (id: string | Plugin) => Promise<boolean>;
   apply: (runAt: string, scope?: string) => Promise<boolean>;
+  dynamicRun(id: string | Plugin): Promise<boolean>;
 
   i18n: (...args: Array<string>) => string;
 
   fetch: (
     url: string,
     options?: {
-      format?: 'json' | 'text';
+      format?: 'json' | 'text' | 'blob';
       [index: string]: any;
     }
   ) => Promise<any>;

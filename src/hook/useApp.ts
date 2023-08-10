@@ -9,5 +9,8 @@ export default function useApp() {
     root: HTMLElement;
     shadow: ShadowRoot;
     container: HTMLElement;
+    dependencies: {
+      [index: string]: any;
+    };
   };
 }
