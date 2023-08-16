@@ -104,6 +104,7 @@ export interface App {
   }>;
 
   path: (id?: string) => string;
+  isExtPage: (url?: string) => boolean;
   field: (
     id?:
       | string

@@ -1,5 +1,5 @@
 import each from './each';
-import setAttr from './set-attr';
+import setAttr from './attr';
 
 export default function create(
   name: string,
