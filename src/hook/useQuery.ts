@@ -25,10 +25,10 @@ export default function useQuery(props: IProps) {
         if (!Array.isArray(results)) {
           return;
         }
-        if (results.length <= 0 || results.length < query.limit) {
+        if (results.length <= 0 || results.length < limit) {
           done.current = true;
         }
-        if (query.start <= 1) {
+        if (start <= 1) {
           setData(results);
         } else {
           setData((lastData) => [...lastData, ...results]);

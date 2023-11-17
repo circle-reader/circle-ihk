@@ -1,6 +1,6 @@
 {
   "name": "circle-ihk",
-  "version": "1.0.0-10",
+  "version": "1.0.0-11",
   "license": "MIT",
   "description": "Circle Reader Component Library",
   "sideEffects": [

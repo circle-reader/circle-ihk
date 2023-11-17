@@ -1,16 +1,15 @@
 import useApp from './useApp';
 import { useState, useEffect } from 'react';
-import { isUndefined, isFunction, isObject } from '../utils/is';
+import { isUndefined, isFunction } from '../utils/is';
 
 interface IProps {
-  id: string;
+  id?: string;
   defaultValue: any;
   disabled?: boolean;
-  monitorFields?: boolean; // 配合 setting 实现设置后实时更新
 }
 
 export default function useOption(props: IProps) {
-  const { id, disabled, defaultValue, monitorFields = true } = props;
+  const { id, disabled, defaultValue } = props;
   const { app, me, container } = useApp();
   const [value, setValue] = useState(defaultValue);
   const refetch = () => {
@@ -42,40 +41,29 @@ export default function useOption(props: IProps) {
       });
   };
 
-  useEffect(refetch, [id]);
+  useEffect(() => {
+    return app.on('tab_activated', (visible: Boolean) => {
+      visible && refetch();
+    });
+  }, []);
 
   useEffect(() => {
-    if (!monitorFields || !isObject(defaultValue)) {
-      return;
+    refetch();
+    let fieldToListen = `${id}_option`;
+    if (!id || id === 'option') {
+      fieldToListen = `${me.id}_option`;
+    } else if (id === 'display') {
+      fieldToListen = `${me.id}_display_option`;
     }
-    const keysToMonitor = Object.keys(defaultValue);
-    if (keysToMonitor.length <= 0) {
-      return;
-    }
-    const hooksToMonitor: Array<() => void> = [];
-    keysToMonitor.forEach((key) => {
-      hooksToMonitor.push(
-        app.on(
-          `${['option', 'display'].includes(id) ? me.id : id}_${key}`,
-          refetch
-        )
-      );
-    });
-    return () => {
-      if (hooksToMonitor.length <= 0) {
-        return;
-      }
-      hooksToMonitor.forEach((hookToMonitor) => {
-        hookToMonitor();
-      });
-    };
-  }, [me.id, monitorFields, defaultValue, refetch]);
+    return app.on(fieldToListen, refetch);
+  }, [id]);
 
   return {
     me,
     app,
     value,
     refetch,
+    setValue,
     onChange,
     container,
   };
