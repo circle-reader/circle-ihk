@@ -101,8 +101,8 @@ export interface App {
   tables: Array<{
     table: 'apps' | 'option' | 'node';
     indexs: string | Array<string>;
+    freeze: Array<string>;
   }>;
-
   path: (id?: string) => string;
   isExtPage: (url?: string) => boolean;
   field: (

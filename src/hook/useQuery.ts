@@ -1,26 +1,32 @@
 import { useRef, useState, useEffect } from 'react';
 import useApp from './useApp';
-import { Match, Pager } from '../interface';
+import { Match } from '../interface';
 import { isUndefined, isFunction } from '../utils/is';
 
-interface IProps extends Pager {
+interface IProps {
+  field?: string;
+  keyRange?: any | Array<any>;
+  start?: number;
+  limit?: number;
   searchIn?: string | Array<string>;
   search?: string;
   order?: 'DESC' | 'ASC';
   match?: Match;
+  table?: string;
 }
 
 export default function useQuery(props: IProps) {
+  const { table = 'node', ...prop } = props;
   const { app, me, container } = useApp();
   const done = useRef(false);
   const [loading, setLoading] = useState(false);
-  const [query, onQuery] = useState(props);
+  const [query, onQuery] = useState(prop);
   const [data, setData] = useState<Array<any>>([]);
   const refetch = (callback?: (err?: string) => void) => {
     setLoading(true);
     const { start = 1, limit = 10, ...reset } = query;
     app
-      .list(reset, { start, limit })
+      .list(reset, { start, limit }, table)
       .then((results: Array<any> = []) => {
         if (!Array.isArray(results)) {
           return;
@@ -53,9 +59,9 @@ export default function useQuery(props: IProps) {
       return;
     }
     app
-      .set(value, key, 'node')
+      .set(value, key, table)
       .then((id: string) => {
-        app.get(id, 'node').then((val: any) => {
+        app.get(id, table).then((val: any) => {
           const index = data.findIndex((prop: any) => prop.id === key);
           if (index >= 0) {
             data[index] = val;
