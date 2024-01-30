@@ -2,12 +2,12 @@ import { App } from '../interface';
 
 export default function (
   app: App,
-  callback?: (grant?: any) => void,
+  callback?: (pass?: boolean) => void,
   btnText?: string
 ) {
   app.get('alert').then((data?: boolean) => {
     if (data) {
-      callback && callback();
+      callback && callback(true);
       return;
     }
     app.fire(
@@ -19,7 +19,7 @@ export default function (
         btnText: btnText || app.i18n('got_it'),
       },
       () => {
-        app.set('alert', true).then(callback);
+        app.set('alert', true);
       }
     );
   });

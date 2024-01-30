@@ -14,6 +14,10 @@ export function isTextNode(value: any) {
   return isType(value, 'Text');
 }
 
+export function isTag(node: Element | null, name: string) {
+  return node && node.tagName && node.tagName.toLowerCase() === name;
+}
+
 export function isElement(value: any) {
   return value && value.nodeType && value.nodeType === 1;
 }

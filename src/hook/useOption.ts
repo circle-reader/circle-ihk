@@ -53,7 +53,9 @@ export default function useOption(props: IProps) {
     if (!id || id === 'option') {
       fieldToListen = `${me.id}_option`;
     } else if (id === 'display') {
-      fieldToListen = `${me.id}_display_option`;
+      fieldToListen = `${me.id}_display_${
+        app.colorScheme.value ? app.colorScheme.value + '_' : ''
+      }option`;
     }
     return app.on(fieldToListen, refetch);
   }, [id]);
