@@ -5,6 +5,7 @@ export { default as useData } from './hook/useData';
 export { default as useQuery } from './hook/useQuery';
 export { default as useOption } from './hook/useOption';
 
+export { default as nid } from './utils/nid';
 export { default as url } from './utils/url';
 export { default as attr } from './utils/attr';
 export { default as unix } from './utils/unix';
@@ -22,22 +23,25 @@ export { default as brower } from './utils/brower';
 export { default as create } from './utils/create';
 export { default as zIndex } from './utils/zindex';
 export { default as observe } from './utils/observe';
+export { default as iterator } from './utils/iterator';
 export { default as keyboard } from './utils/keyboard';
 export { default as nodeText } from './utils/node-text';
-export { default as queryTitle } from './utils/query-title';
-
+export { default as pageNode } from './utils/page-node';
+export { default as pageStyle } from './utils/page-style';
+export { default as dataFromTemplate } from './utils/data-from-template';
+export { default as filterPluginField } from './utils/filter-plugin-field';
 export { User, App, Plugin, IData, Match, Query, Pager } from './interface';
 
 export {
   isType,
-  isTextNode,
-  isChinese,
-  isUndefined,
+  isNumber,
+  isObject,
   isString,
   isElement,
-  isNumber,
-  isFunction,
   isBoolean,
-  isObject,
+  isChinese,
+  isFunction,
+  isTextNode,
+  isUndefined,
   isAsyncFunction,
 } from './utils/is';

@@ -4,32 +4,30 @@ specifiers:
   '@commitlint/cli': ^17.6.6
   '@commitlint/config-conventional': ^17.6.6
   '@types/classnames': ^2.3.1
-  '@types/crypto-js': ^4.1.1
   '@types/prop-types': ^15.7.5
   '@types/react': ^18.2.14
   '@types/react-dom': ^18.2.6
   '@typescript-eslint/eslint-plugin': ^5.60.1
   '@typescript-eslint/parser': ^5.60.1
-  crypto-js: ^4.1.1
   eslint: ^8.43.0
   eslint-config-prettier: ^8.8.0
   eslint-plugin-prettier: ^4.2.1
   husky: ^8.0.3
   lint-staged: ^13.2.3
   lodash: ^4.17.21
+  nanoid: ^5.0.5
   prettier: ^2.8.8
   react: ^18.2.0
   typescript: ^5.1.6
 
 dependencies:
-  crypto-js: 4.1.1
+  nanoid: 5.0.5
   react: 18.2.0
 
 devDependencies:
   '@commitlint/cli': 17.6.7
   '@commitlint/config-conventional': 17.6.7
   '@types/classnames': 2.3.1
-  '@types/crypto-js': 4.1.1
   '@types/prop-types': 15.7.5
   '@types/react': 18.2.18
   '@types/react-dom': 18.2.7
@@ -362,10 +360,6 @@ packages:
     deprecated: This is a stub types definition. classnames provides its own type definitions, so you do not need this installed.
     dependencies:
       classnames: 2.3.2
-    dev: true
-
-  /@types/crypto-js/4.1.1:
-    resolution: {integrity: sha512-BG7fQKZ689HIoc5h+6D2Dgq1fABRa0RbBWKBd9SP/MVRVXROflpm5fhwyATX5duFmbStzyzyycPB8qUYKDH3NA==}
     dev: true
 
   /@types/json-schema/7.0.12:
@@ -864,10 +858,6 @@ packages:
       shebang-command: 2.0.0
       which: 2.0.2
     dev: true
-
-  /crypto-js/4.1.1:
-    resolution: {integrity: sha512-o2JlM7ydqd3Qk9CA0L4NL6mTzU2sdx96a+oOfPu8Mkl/PK51vSyoi8/rQ8NknZtk44vq15lmhAj9CIAGwgeWKw==}
-    dev: false
 
   /csstype/3.1.2:
     resolution: {integrity: sha512-I7K1Uu0MBPzaFKg4nI5Q7Vs2t+3gWWW648spaF+Rg7pI9ds18Ugn+lvg4SHczUdKlHI5LWBXyqfS8+DufyBsgQ==}
@@ -1730,6 +1720,12 @@ packages:
   /ms/2.1.2:
     resolution: {integrity: sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==}
     dev: true
+
+  /nanoid/5.0.5:
+    resolution: {integrity: sha512-/Veqm+QKsyMY3kqi4faWplnY1u+VuKO3dD2binyPIybP31DRO29bPF+1mszgLnrR2KqSLceFLBNw0zmvDzN1QQ==}
+    engines: {node: ^18 || >=20}
+    hasBin: true
+    dev: false
 
   /natural-compare-lite/1.4.0:
     resolution: {integrity: sha512-Tj+HTDSJJKaZnfiuw+iaF9skdPpTo2GtEly5JHnWV/hfv2Qj/9RKsGISQtLh2ox3l5EAGw487hnBee0sIJ6v2g==}

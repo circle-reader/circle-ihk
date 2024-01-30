@@ -1,12 +1,11 @@
 export interface User {
-  auth?: string;
-  token?: string;
-  uid?: string;
+  uid: string;
   name?: string;
   expire?: string;
   avatar?: string;
   mail?: string;
   roles: Array<string>;
+  access_token?: string;
 }
 
 export interface Plugin {
@@ -17,7 +16,6 @@ export interface Plugin {
   core?: boolean;
   enabled?: boolean;
   version?: string;
-  preset?: boolean;
   priority?: number;
   description?: string;
   author?: string;
@@ -97,12 +95,16 @@ export interface App {
     any: boolean;
   };
   user: User;
-  colorScheme: '' | 'light' | 'dark';
+  getURL: (path: string) => string;
+  colorScheme: {
+    value: '' | 'light' | 'dark';
+  };
   tables: Array<{
     table: 'apps' | 'option' | 'node';
     indexs: string | Array<string>;
     freeze: Array<string>;
   }>;
+  url2json: (url: string) => any;
   path: (id?: string) => string;
   isExtPage: (url?: string) => boolean;
   field: (
@@ -136,18 +138,26 @@ export interface App {
       | {
           version?: string;
           data: any;
-        }
+        },
+    type?: string
   ) => Promise<any>;
   reset: (value?: string) => Promise<any>;
   contextMenus: (
     action: 'create' | 'update' | 'remove' | 'destory' | 'rebuild',
-    value:
+    value?:
       | string
       | {
           id: string;
-          title: string;
-          enabled?: boolean;
+          label?: string;
+          checked?: boolean;
         }
+      | Array<{
+          id: string;
+          label: string;
+          priority?: number;
+          checked: boolean;
+          global?: boolean;
+        }>
   ) => Promise<any>;
   tabs: (
     action: 'create' | 'update' | 'remove' | 'captureVisibleTab' | 'query',
