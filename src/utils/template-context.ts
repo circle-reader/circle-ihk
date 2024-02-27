@@ -4,7 +4,8 @@ import { isElement, isString } from './is';
 
 export default function templateContext(
   app: App,
-  content?: string | HTMLElement
+  content?: string | HTMLElement,
+  format?: boolean
 ): {
   [index: string]: {
     [index: string]: number | string;
@@ -27,9 +28,9 @@ export default function templateContext(
     // @ts-ignore
     if (isString(content) && content.length > 0) {
       // @ts-ignore
-      textToReturn = content;
-      // @ts-ignore
-      htmlToReturn = content;
+      const value = format ? content.replace(/\n+/g, '<br />') : content;
+      textToReturn = value;
+      htmlToReturn = value;
     } else if (isElement(content)) {
       // @ts-ignore
       textToReturn = content.innerText;

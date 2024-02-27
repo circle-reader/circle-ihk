@@ -7,6 +7,7 @@ export default function dataFromTemplate<T>(
   templateId: T,
   args: {
     id: string;
+    format?: boolean;
     part?: string | HTMLElement;
     option?: {
       [index: string]: string;
@@ -17,7 +18,7 @@ export default function dataFromTemplate<T>(
     args.option ? Promise.resolve(args.option) : app.option('option')
   ).then((result) => {
     const returnValue: Array<string> = [];
-    const context = templateContext(app, args.part);
+    const context = templateContext(app, args.part, args.format);
     (Array.isArray(templateId) ? templateId : [templateId]).forEach(
       (template) => {
         const templateValue =
@@ -25,7 +26,7 @@ export default function dataFromTemplate<T>(
             ? result[template]
             : 'Export template not found';
         const data = templateValue.replace(
-          /\[(.*?)\]/g,
+          /\[([^[|^\]]+)\]/g,
           (match: string, key: string) => {
             const [scope, attr, start, end] = key.trim().split(':');
             if (scope && attr) {

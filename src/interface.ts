@@ -6,6 +6,7 @@ export interface User {
   mail?: string;
   roles: Array<string>;
   access_token?: string;
+  is_logged_in?: boolean;
 }
 
 export interface Plugin {
@@ -57,6 +58,7 @@ export type Pager = {
 };
 
 export interface App {
+  v3: boolean;
   version: string;
   language: string;
   device: {
@@ -106,6 +108,7 @@ export interface App {
   }>;
   url2json: (url: string) => any;
   path: (id?: string) => string;
+  match: (data: Array<any>, match?: string) => any;
   isExtPage: (url?: string) => boolean;
   field: (
     id?:
@@ -148,21 +151,30 @@ export interface App {
       | string
       | {
           id: string;
-          label?: string;
-          checked?: boolean;
+          type?: string;
+          label: string;
+          action?: boolean;
+          checked: boolean;
+          priority?: number;
+          contexts?: [string];
         }
       | Array<{
           id: string;
+          type?: string;
           label: string;
-          priority?: number;
+          action?: boolean;
           checked: boolean;
-          global?: boolean;
+          priority?: number;
+          contexts?: [string];
         }>
   ) => Promise<any>;
   tabs: (
     action: 'create' | 'update' | 'remove' | 'captureVisibleTab' | 'query',
     value?: any
   ) => Promise<any>;
+  fontSettings: (
+    action: 'list'
+  ) => Promise<Array<{ displayName: string; fontId: string }>>;
   windows: (
     action: 'current' | 'create' | 'get' | 'update' | 'remove',
     value?:
@@ -180,22 +192,31 @@ export interface App {
         }
   ) => Promise<any>;
 
-  warning: (...args: Array<string>) => void;
-  info: (...args: Array<string>) => void;
-  error: (...args: Array<string>) => void;
-  success: (...args: Array<string>) => void;
+  warning: (...args: Array<string>) => () => void;
+  info: (...args: Array<string>) => () => void;
+  error: (...args: Array<string>) => () => void;
+  success: (...args: Array<string>) => () => void;
+  loading: (...args: Array<string>) => () => void;
 
-  syncUser: () => Promise<User>;
-  cron: (force?: boolean) => Promise<boolean>;
+  syncUser: (user?: User) => Promise<User>;
+  cron: (callback: () => void, duration?: number) => Promise<boolean>;
 
-  getApp(id: string | Plugin): Promise<Plugin>;
+  getApp(id: string | Array<string> | Plugin | Array<Plugin>): Promise<Plugin>;
   listApp: (match?: Match, pager?: Pager) => Promise<Array<Plugin>>;
-  enable: (id: string | Plugin) => Promise<boolean>;
-  disable: (id: string | Plugin) => Promise<boolean>;
-  uninstall: (id: string | Plugin) => Promise<boolean>;
-  install: (id: string | Plugin) => Promise<boolean>;
-  apply: (runAt: string, scope?: string) => Promise<boolean>;
-  dynamicRun(id: string | Plugin): Promise<boolean>;
+  enable: (
+    id: string | Array<string> | Plugin | Array<Plugin>
+  ) => Promise<boolean>;
+  disable: (
+    id: string | Array<string> | Plugin | Array<Plugin>
+  ) => Promise<boolean>;
+  uninstall: (
+    id: string | Array<string> | Plugin | Array<Plugin>
+  ) => Promise<boolean>;
+  install: (
+    id: string | Array<string> | Plugin | Array<Plugin>
+  ) => Promise<boolean>;
+  apply: (runAt: string) => Promise<boolean>;
+  dynamicRun(id: string): Promise<boolean>;
 
   i18n: (...args: Array<string>) => string;
 
