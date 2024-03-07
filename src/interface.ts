@@ -59,6 +59,7 @@ export type Pager = {
 
 export interface App {
   v3: boolean;
+  debug: boolean;
   version: string;
   language: string;
   device: {
