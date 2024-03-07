@@ -152,18 +152,18 @@ export interface App {
       | {
           id: string;
           type?: string;
-          label: string;
+          label?: string;
           action?: boolean;
-          checked: boolean;
+          checked?: boolean;
           priority?: number;
           contexts?: [string];
         }
       | Array<{
           id: string;
           type?: string;
-          label: string;
+          label?: string;
           action?: boolean;
-          checked: boolean;
+          checked?: boolean;
           priority?: number;
           contexts?: [string];
         }>

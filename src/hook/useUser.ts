@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import useApp from './useApp';
 import { User } from '../interface';
 
 export default function useUser() {
-  const { app } = useApp();
+  const { me, app, container } = useApp();
   const [user, setUser] = useState<User>(app.user);
   const login = () => {
     // 先清空 access_token 再登录
@@ -17,10 +17,18 @@ export default function useUser() {
     );
   };
 
+  useEffect(() => {
+    app.on('tab_activated', () => {
+      setUser({ ...app.user });
+    });
+  }, []);
+
   return {
+    me,
     app,
     user,
     login,
+    container,
     logout() {
       return app
         .syncUser({ uid: user.uid, roles: [], access_token: '' })
