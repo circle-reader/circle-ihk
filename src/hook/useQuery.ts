@@ -1,7 +1,13 @@
-import { useRef, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import useApp from './useApp';
 import { Match } from '../interface';
 import { isUndefined, isFunction } from '../utils/is';
+
+interface IData {
+  start: number;
+  limit: number;
+  data: Array<any>;
+}
 
 interface IProps {
   field?: string;
@@ -18,26 +24,31 @@ interface IProps {
 export default function useQuery(props: IProps) {
   const { table = 'node', ...prop } = props;
   const { app, me, container } = useApp();
-  const done = useRef(false);
+  const [done, onDone] = useState(false);
   const [loading, setLoading] = useState(false);
   const [query, onQuery] = useState(prop);
-  const [data, setData] = useState<Array<any>>([]);
+  const [data, setData] = useState<IData>({
+    data: [],
+    start: query.start || 1,
+    limit: query.limit || 10,
+  });
   const refetch = (callback?: (err?: string) => void) => {
     setLoading(true);
     const { start = 1, limit = 10, ...reset } = query;
     app
       .list(reset, { start, limit }, table)
-      .then((results: Array<any> = []) => {
-        if (!Array.isArray(results)) {
-          return;
-        }
-        if (results.length <= 0 || results.length < limit) {
-          done.current = true;
+      .then((res: IData) => {
+        if (res.data.length <= 0 || res.data.length < limit) {
+          onDone(true);
         }
         if (start <= 1) {
-          setData(results);
+          setData(res);
         } else {
-          setData((lastData) => [...lastData, ...results]);
+          setData((lastData) => ({
+            start: res.start,
+            limit: res.limit,
+            data: [...lastData.data, ...res.data],
+          }));
         }
         // @ts-ignore
         isFunction(callback) && callback();
@@ -60,18 +71,19 @@ export default function useQuery(props: IProps) {
     }
     app
       .set(value, key, table)
-      .then((id: string) => {
-        app.get(id, table).then((val: any) => {
-          const index = data.findIndex((prop: any) => prop.id === key);
-          if (index >= 0) {
-            data[index] = val;
-          } else {
-            data.push(val);
-          }
-          setData([...data]);
-          // @ts-ignore
-          isFunction(callback) && callback();
+      .then(() => {
+        const index = data.data.findIndex((prop: any) => prop.id === key);
+        if (index >= 0) {
+          data.data[index] = value;
+        } else {
+          data.data.push(value);
+        }
+        setData({
+          ...data,
+          data: [...data.data],
         });
+        // @ts-ignore
+        isFunction(callback) && callback();
       })
       .catch((err: Error) => {
         // @ts-ignore
@@ -85,11 +97,24 @@ export default function useQuery(props: IProps) {
     me,
     app,
     data,
+    done,
     query,
+    onDone,
     onQuery,
     onChange,
     loading,
     refetch,
     container,
+    loadMore: done
+      ? null
+      : () => {
+          if (loading) {
+            return;
+          }
+          onQuery({
+            ...query,
+            start: data.start,
+          });
+        },
   };
 }
