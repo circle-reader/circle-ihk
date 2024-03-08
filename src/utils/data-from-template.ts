@@ -27,7 +27,7 @@ export default function dataFromTemplate<T>(
             : 'Export template not found';
         const data = templateValue.replace(
           /\[([^[|^\]]+)\]/g,
-          (match: string, key: string) => {
+          (_match: string, key: string) => {
             const [scope, attr, start, end] = key.trim().split(':');
             if (scope && attr) {
               const scopeValue = context[scope];
@@ -57,9 +57,9 @@ export default function dataFromTemplate<T>(
                 }
                 return valueToReturn;
               }
-              return match;
+              return '';
             }
-            return match;
+            return '';
           }
         );
         returnValue.push(app.applyFilter(template, data, args.id));

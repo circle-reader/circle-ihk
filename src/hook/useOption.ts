@@ -57,7 +57,14 @@ export default function useOption(props: IProps) {
         app.colorScheme.value ? app.colorScheme.value + '_' : ''
       }option`;
     }
-    return app.on(fieldToListen, refetch);
+    const hooks: Array<() => void> = [];
+    hooks.push(app.on(fieldToListen, refetch));
+    hooks.push(app.on('color_scheme', refetch));
+    return () => {
+      hooks.forEach((hook) => {
+        hook();
+      });
+    };
   }, [id]);
 
   return {

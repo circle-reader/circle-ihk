@@ -123,7 +123,7 @@ export interface App {
 
   data(id: string, value?: any): any;
 
-  get: (id: string, table?: string) => Promise<any>;
+  get: (id?: string, table?: string) => Promise<any>;
   set: (id: string | Array<IData>, value?: any, table?: string) => Promise<any>;
   remove: (id: string | Array<string>, table?: string) => Promise<any>;
   list: (query?: Query, pager?: Pager, table?: string) => Promise<any>;

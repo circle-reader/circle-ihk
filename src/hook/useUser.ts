@@ -19,7 +19,9 @@ export default function useUser() {
 
   useEffect(() => {
     app.on('tab_activated', () => {
-      setUser({ ...app.user });
+      app.syncUser().then(() => {
+        setUser({ ...app.user });
+      });
     });
   }, []);
 
