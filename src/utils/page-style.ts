@@ -3,21 +3,21 @@ import { App } from '../interface';
 import { isTag, isElement } from './is';
 
 export default function pageStyle(app: App) {
+  let data = '.container .ant-app{padding-right: 0 !important;}';
   const container = app.field('container');
   if (!isElement(container)) {
-    return '';
+    return data;
   }
   const parentElement = container.parentNode;
   if (!parentElement) {
-    return '';
+    return data;
   }
-  let stylesToReturn = '';
   each(parentElement.children, (children: Element) => {
     if (!isTag(children, 'style')) {
       return;
     }
     const styleToReturn = children.textContent || '';
-    styleToReturn.length > 0 && (stylesToReturn += styleToReturn);
+    styleToReturn.length > 0 && (data += styleToReturn);
   });
   const attrs: Array<string> = [];
   const cssText = container.style.cssText;
@@ -30,11 +30,8 @@ export default function pageStyle(app: App) {
   if (attrs.length > 0) {
     each(attrs, (attr: string) => {
       const [key, value] = attr.split(':');
-      stylesToReturn = stylesToReturn.replace(
-        new RegExp(`var\\(${key}\\)`, 'g'),
-        value
-      );
+      data = data.replace(new RegExp(`var\\(${key}\\)`, 'g'), value);
     });
   }
-  return stylesToReturn.replace(/\n+/g, '');
+  return data.replace(/\\n+/g, ' ');
 }

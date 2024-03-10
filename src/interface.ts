@@ -63,6 +63,7 @@ export interface App {
   version: string;
   language: string;
   device: {
+    browser: 'edge' | 'opera' | 'firefox' | '360' | 'chrome' | '';
     apple: {
       phone: boolean;
       ipod: boolean;
@@ -200,8 +201,10 @@ export interface App {
   loading: (...args: Array<string>) => () => void;
 
   syncUser: (user?: User) => Promise<User>;
-  cron: (callback: () => void, duration?: number) => Promise<boolean>;
-
+  cron: (
+    callback: () => Promise<any> | boolean | void,
+    duration?: number
+  ) => Promise<boolean>;
   getApp(id: string | Array<string> | Plugin | Array<Plugin>): Promise<Plugin>;
   listApp: (match?: Match, pager?: Pager) => Promise<Array<Plugin>>;
   enable: (
