@@ -55,9 +55,9 @@ export default function templateContext(
         });
       }
     }
-    if (htmlToReturn.length > 0) {
+    if (dataToReturn.length > 0) {
       const temp = document.createElement('div');
-      temp.innerHTML = htmlToReturn;
+      temp.innerHTML = dataToReturn;
       textToReturn = temp.innerText;
       htmlToReturn = dataToReturn;
     } else {
