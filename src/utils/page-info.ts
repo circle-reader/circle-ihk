@@ -1,11 +1,13 @@
 import url from './url';
 import { App } from '../interface';
 import nodeText from './node-text';
+import formatNode from './format-node';
 import { isElement, isString } from './is';
 
 export default function pageInfo(
   app: App,
-  exportFromDOMOrString?: string | HTMLElement
+  exportFromDOMOrString?: string | HTMLElement,
+  format = true
 ) {
   const returnValue = {
     url: url(),
@@ -37,10 +39,13 @@ export default function pageInfo(
   }
   const container = app.field('container');
   if (isElement(container)) {
-    returnValue.content = container;
-    const title = container.querySelector('.page .title');
-    if (isElement(title)) {
-      returnValue.title = nodeText(title);
+    const pages = container.querySelector('.pages');
+    if (isElement(pages)) {
+      returnValue.content = pages;
+      const title = pages.querySelector('.page .title');
+      if (isElement(title)) {
+        returnValue.title = nodeText(title);
+      }
     }
   }
   if (exportFromDOMOrString) {
@@ -54,6 +59,9 @@ export default function pageInfo(
       // @ts-ignore
       returnValue.content = exportFromDOMOrString;
     }
+  }
+  if (format && isElement(returnValue.content)) {
+    returnValue.content = formatNode(app, returnValue.content);
   }
   return returnValue;
 }
