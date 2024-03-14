@@ -6,10 +6,11 @@ interface IProps {
   id?: string;
   defaultValue: any;
   disabled?: boolean;
+  fieldToListen?: string;
 }
 
 export default function useOption(props: IProps) {
-  const { id, disabled, defaultValue } = props;
+  const { id, disabled, defaultValue, fieldToListen } = props;
   const { app, me, container } = useApp();
   const [value, setValue] = useState(defaultValue);
   const refetch = () => {
@@ -49,16 +50,22 @@ export default function useOption(props: IProps) {
 
   useEffect(() => {
     refetch();
-    let fieldToListen = `${id}_option`;
-    if (!id || id === 'option') {
-      fieldToListen = `${me.id}_option`;
-    } else if (id === 'display') {
-      fieldToListen = `${me.id}_display_${
-        app.colorScheme.value ? app.colorScheme.value + '_' : ''
-      }option`;
+    let fieldToListenValue = '';
+    if (fieldToListen) {
+      fieldToListenValue = fieldToListen;
+    } else {
+      if (!id || id === 'option') {
+        fieldToListenValue = `${me.id}_option`;
+      } else if (id === 'display') {
+        fieldToListenValue = `${me.id}_display_${
+          app.colorScheme.value ? app.colorScheme.value + '_' : ''
+        }option`;
+      } else {
+        fieldToListenValue = `${id}_option`;
+      }
     }
     const hooks: Array<() => void> = [];
-    hooks.push(app.on(fieldToListen, refetch));
+    hooks.push(app.on(fieldToListenValue, refetch));
     hooks.push(app.on('color_scheme', refetch));
     return () => {
       hooks.forEach((hook) => {
